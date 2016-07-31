@@ -4,6 +4,7 @@ import (
 	"github.com/go-telegram-bot-api/telegram-bot-api"
 	"log"
 	"os"
+	"weather-bot/weather"
 )
 
 func main() {
@@ -11,6 +12,12 @@ func main() {
 
 	if token == "" {
 		log.Panic("Empty token!")
+	}
+
+	weatherToken := os.Getenv("WEATHER_TOKEN")
+
+	if weatherToken == "" {
+		log.Panic("Empty weather token!")
 	}
 
 	bot, err := tgbotapi.NewBotAPI(token)
@@ -41,6 +48,19 @@ func main() {
 
 		if update.Message.Location != nil {
 			log.Print(update.Message.Location)
+			log.Print(update.Message.Location.Latitude)
+			log.Print(update.Message.Location.Longitude)
+			lat:=update.Message.Location.Latitude
+			lon:=update.Message.Location.Longitude
+			resp:=weather.GetWeather(weatherToken,lat,lon)
+
+			//fmt.Print(res)
+			temp:=weather.FloatToString(resp.Main.Temp)
+
+			msg := tgbotapi.NewMessage(update.Message.Chat.ID, temp)
+			msg.ReplyToMessageID = update.Message.MessageID
+
+			bot.Send(msg)
 
 		} else {
 			log.Printf("[%s] %s", update.Message.From.UserName, update.Message.Text)
