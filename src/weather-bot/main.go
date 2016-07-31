@@ -50,14 +50,14 @@ func main() {
 			log.Print(update.Message.Location)
 			log.Print(update.Message.Location.Latitude)
 			log.Print(update.Message.Location.Longitude)
-			lat:=update.Message.Location.Latitude
-			lon:=update.Message.Location.Longitude
-			resp:=weather.GetWeather(weatherToken,lat,lon)
+			lat := update.Message.Location.Latitude
+			lon := update.Message.Location.Longitude
+			resp := weather.GetWeather(weatherToken, lat, lon)
 
 			//fmt.Print(res)
-			temp:=weather.FloatToString(resp.Main.Temp)
+			respTex := "Temp is "+ weather.TempToString(resp.Main.Temp) + "C in " + resp.Name
 
-			msg := tgbotapi.NewMessage(update.Message.Chat.ID, temp)
+			msg := tgbotapi.NewMessage(update.Message.Chat.ID, respTex)
 			msg.ReplyToMessageID = update.Message.MessageID
 
 			bot.Send(msg)
@@ -65,7 +65,9 @@ func main() {
 		} else {
 			log.Printf("[%s] %s", update.Message.From.UserName, update.Message.Text)
 
-			msg := tgbotapi.NewMessage(update.Message.Chat.ID, update.Message.Text)
+			respText := "Please, send me your location"
+
+			msg := tgbotapi.NewMessage(update.Message.Chat.ID, respText)
 			msg.ReplyToMessageID = update.Message.MessageID
 
 			bot.Send(msg)

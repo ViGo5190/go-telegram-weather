@@ -12,6 +12,7 @@ type Resp struct {
 	Cod   int `json:"cod"`
 	Coord *Coord `json:"coord"`
 	Main *Main `json:"main"`
+	Name string `json:"name"`
 }
 
 type Coord struct {
@@ -25,9 +26,12 @@ type Main struct {
 	Humidity float64 `json:"humidity"`
 }
 
-func FloatToString(input_num float64) string {
-	// to convert a float number to a string
+func floatToString(input_num float64) string {
 	return strconv.FormatFloat(input_num, 'f', 6, 64)
+}
+
+func TempToString(input_num float64) string {
+	return strconv.FormatFloat(input_num, 'f', 1, 64)
 }
 
 func getJson(url string, target interface{}) error {
@@ -41,8 +45,8 @@ func getJson(url string, target interface{}) error {
 }
 
 func GetWeather(weatherToken string, lat, lon float64) *Resp{
-	latStr := FloatToString(lat)
-	lonStr := FloatToString(lon)
+	latStr := floatToString(lat)
+	lonStr := floatToString(lon)
 	requestUrl := "http://api.openweathermap.org/data/2.5/weather?lat=" + latStr + "&lon=" + lonStr + "&appid=" + weatherToken + "&units=metric"
 
 	resp := new(Resp)
@@ -58,6 +62,8 @@ func GetWeather(weatherToken string, lat, lon float64) *Resp{
 	fmt.Println(resp.Main.Temp)
 	fmt.Println(resp.Main.Pressure)
 	fmt.Println(resp.Main.Humidity)
+
+	fmt.Println(resp.Name)
 
 	return resp
 }
