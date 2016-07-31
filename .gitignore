@@ -26,8 +26,8 @@ _testmain.go
 .idea/
 bin/
 
-!src/weather-bot/*
-src
+src/github.com/
+
 
 pkg/
 
