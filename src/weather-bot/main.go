@@ -47,15 +47,11 @@ func main() {
 		}
 
 		if update.Message.Location != nil {
-			log.Print(update.Message.Location)
-			log.Print(update.Message.Location.Latitude)
-			log.Print(update.Message.Location.Longitude)
 			lat := update.Message.Location.Latitude
 			lon := update.Message.Location.Longitude
 			resp := weather.GetWeather(weatherToken, lat, lon)
 
-			//fmt.Print(res)
-			respTex := "Temp is "+ weather.TempToString(resp.Main.Temp) + "C in " + resp.Name
+			respTex := "Temp is " + weather.TempToString(resp.Main.Temp) + "C in " + resp.Name
 
 			msg := tgbotapi.NewMessage(update.Message.Chat.ID, respTex)
 			msg.ReplyToMessageID = update.Message.MessageID
@@ -69,6 +65,15 @@ func main() {
 
 			msg := tgbotapi.NewMessage(update.Message.Chat.ID, respText)
 			msg.ReplyToMessageID = update.Message.MessageID
+
+			bt := tgbotapi.NewKeyboardButtonLocation("Location")
+
+			var btns []tgbotapi.KeyboardButton
+			btns = append(btns, bt)
+
+			kbrd := tgbotapi.NewReplyKeyboard(btns);
+
+			msg.ReplyMarkup = kbrd
 
 			bot.Send(msg)
 		}

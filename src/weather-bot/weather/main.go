@@ -2,29 +2,10 @@ package weather
 
 import (
 	"net/http"
-	"fmt"
 	"strconv"
 	"encoding/json"
+	"log"
 )
-
-type Resp struct {
-	Base  string `json:"base"`
-	Cod   int `json:"cod"`
-	Coord *Coord `json:"coord"`
-	Main *Main `json:"main"`
-	Name string `json:"name"`
-}
-
-type Coord struct {
-	Lon float64 `json:"lon"`
-	Lat float64 `json:"lat"`
-}
-
-type Main struct {
-	Temp     float64 `json:"temp"`
-	Pressure float64 `json:"pressure"`
-	Humidity float64 `json:"humidity"`
-}
 
 func floatToString(input_num float64) string {
 	return strconv.FormatFloat(input_num, 'f', 6, 64)
@@ -52,18 +33,18 @@ func GetWeather(weatherToken string, lat, lon float64) *Resp{
 	resp := new(Resp)
 	getJson(requestUrl, resp);
 
-	fmt.Println(resp.Base)
-	fmt.Println(resp.Cod)
-	fmt.Println(resp.Coord)
-	fmt.Println(resp.Coord.Lat)
-	fmt.Println(resp.Coord.Lon)
+	log.Println(resp.Base)
+	log.Println(resp.Cod)
+	log.Println(resp.Coord)
+	log.Println(resp.Coord.Lat)
+	log.Println(resp.Coord.Lon)
 
-	fmt.Println(resp.Main)
-	fmt.Println(resp.Main.Temp)
-	fmt.Println(resp.Main.Pressure)
-	fmt.Println(resp.Main.Humidity)
+	log.Println(resp.Main)
+	log.Println(resp.Main.Temp)
+	log.Println(resp.Main.Pressure)
+	log.Println(resp.Main.Humidity)
 
-	fmt.Println(resp.Name)
+	//log.Println(resp.Name)
 
 	return resp
 }
