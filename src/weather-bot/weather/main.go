@@ -25,26 +25,29 @@ func getJson(url string, target interface{}) error {
 	return json.NewDecoder(r.Body).Decode(target)
 }
 
-func GetWeather(weatherToken string, lat, lon float64) *Resp{
+func GetWeather(weatherToken string, lat, lon float64) (*Resp,error) {
 	latStr := floatToString(lat)
 	lonStr := floatToString(lon)
 	requestUrl := "http://api.openweathermap.org/data/2.5/weather?lat=" + latStr + "&lon=" + lonStr + "&appid=" + weatherToken + "&units=metric"
 
 	resp := new(Resp)
-	getJson(requestUrl, resp);
+	err := getJson(requestUrl, resp);
 
-	log.Println(resp.Base)
-	log.Println(resp.Cod)
-	log.Println(resp.Coord)
-	log.Println(resp.Coord.Lat)
-	log.Println(resp.Coord.Lon)
-
-	log.Println(resp.Main)
+	//if (err != nil) {
+	//	log.Panic(err)
+	//}
+	//log.Println(resp.Base)
+	//log.Println(resp.Cod)
+	//log.Println(resp.Coord)
+	//log.Println(resp.Coord.Lat)
+	//log.Println(resp.Coord.Lon)
+	//
+	//log.Println(resp.Main)
 	log.Println(resp.Main.Temp)
-	log.Println(resp.Main.Pressure)
-	log.Println(resp.Main.Humidity)
+	//log.Println(resp.Main.Pressure)
+	//log.Println(resp.Main.Humidity)
 
 	//log.Println(resp.Name)
 
-	return resp
+	return resp, err
 }
