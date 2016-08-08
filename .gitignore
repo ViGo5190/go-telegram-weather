@@ -32,3 +32,7 @@ src/github.com/
 pkg/
 
 develop/
+
+!src/vendor/manifest
+
+src/vendor/

@@ -11,5 +11,5 @@ build:
 
 deps:
 	export GOPATH=$(shell pwd);  \
-	cd src/weather-bot; \
-	go get
+	cd src; \
+	gvt restore
